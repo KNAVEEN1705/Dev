@@ -100,9 +100,9 @@ IV.	Extending Application Functionality:
 
 V.	Request/Response Modifications:
   •	Middleware can modify req or res objects, adding properties or transforming data before it reaches the route handler or client.
-
 VI.	Routing Logic:
   •	Middleware enables complex routing flows by conditionally determining the next steps based on the request data.
+  
   ==========================================================================================================================================================================
 
 
