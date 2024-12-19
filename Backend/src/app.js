@@ -1,23 +1,30 @@
 const express = require('express');
-const { adminauth,userauth } = require('./middleware/auth'); // Import the middleware
-
+const connectdb=require("./config/database")
 const app = express();
+const User= require('./models/user');
 
-// Apply adminauth middleware to /admin routes
-app.use("/admin", adminauth);
-app.use("/user",userauth)
+app.post("/signup",async(req,res)=>{
+    const user= new User({
+        firstName:"Naveen",
+        lastName:"K",
+        emailId:"naveennavi1711@gmail.com",
+        password:"naveen1117" 
+    })
+    try{
+        await user.save()
+        res.send("Data stored sucessfully")
+    }catch(err){
+        res.status(400).send("Error while saving user info.."+err.massage)
+    }
+}) 
 
-// Define an example route
-app.get("/admin/getAllData", (req, res) => {
-    res.send("All data sent");
-});
-
-app.get("/user/getAllData",(req,res)=>{
-
-    res.send("all user data send")
-})
-
+connectdb().then(()=>{
+console.log("DataBase connected successfully....")
 // Start the server
 app.listen(8000, () => {
     console.log("Server is listening on port 8000");
 });
+}).catch(err=>{
+console.error("Database not connected successfully...")
+})
+
