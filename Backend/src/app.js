@@ -3,28 +3,42 @@ const connectdb=require("./config/database")
 const app = express();
 const User= require('./models/user');
 
-app.post("/signup",async(req,res)=>{
-    const user= new User({
-        firstName:"Naveen",
-        lastName:"K",
-        emailId:"naveennavi1711@gmail.com",
-        password:"naveen1117" 
-    })
+app.use(express.json());
+ app.post("/signup",(req,res)=>{
+    const user = new User(req.body);
     try{
-        await user.save()
-        res.send("Data stored sucessfully")
-    }catch(err){
-        res.status(400).send("Error while saving user info.."+err.massage)
+        user.save();
+        res.send("Data saved")
     }
-}) 
+    catch{
+        res.status(400).send("Error")
+    }
+ })
 
 connectdb().then(()=>{
-console.log("DataBase connected successfully....")
-// Start the server
-app.listen(8000, () => {
-    console.log("Server is listening on port 8000");
-});
-}).catch(err=>{
-console.error("Database not connected successfully...")
-})
+    console.log("DataBase connected successfully....")
+    // Start the server
+    app.listen(8000, () => {
+        console.log("Server is listening on port 8000");
+    });
+    }).catch(err=>{
+    console.error("Database not connected successfully...")
+    })
+
+// app.post("/signup",async(req,res)=>{
+//     const user= new User({
+//         firstName:"Naveen",
+//         lastName:"K",
+//         emailId:"naveennavi1711@gmail.com",
+//         password:"naveen1117" 
+//     })
+//     try{
+//         await user.save()
+//         res.send("Data stored sucessfully")
+//     }catch(err){
+//         res.status(400).send("Error while saving user info.."+err.massage)
+//     }
+// }) 
+
+
 
