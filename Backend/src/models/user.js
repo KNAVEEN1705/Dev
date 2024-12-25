@@ -1,22 +1,39 @@
 const mongoose= require('mongoose');
 const userSchema= new mongoose.Schema({
     firstName:{
-        type : String
+        type : String,
+        required: true,
+        minLength:4,
+        maxLength:50
     },
     lastName:{
         type:String
     },
     emailId:{
-        type:String
+        type:String,
+        required:true,
+        unique:true,
+        lowercase:true,
+        trim:true
     },
     password:{
-        type:String
+        type:String,
+        required:true
     },
     age:{
-        type:Number
+        type:Number,
+        minLength:18
     },
     gender:{
-        type:Number
+        type:String,
+        enum:["male","female","other"]
+        // validate:(value)=>{
+        //     if(!["male","female","other"].includes(value)){
+        //         throw("Invalide gender")
+        //     }
+        // }
     }
+},{
+    timestamps:true
 })
 module.exports=mongoose.model("User",userSchema);
