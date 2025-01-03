@@ -5,7 +5,13 @@ const User= require('./models/user');
 const validator=require("validator")
 const {validateSignupData}=require("./utils/validation")
 const bcrypt=require("bcrypt")
+const cookieParsar=require("cookie-parser")
+const jwt= require("jsonwebtoken");
+
+const {userauth}=require('./middleware/auth')
+
 app.use(express.json());
+app.use(cookieParsar());
 app.post("/signup", async (req, res) => {
     try {
         // Validate user data
@@ -43,18 +49,30 @@ app.post("/login",async(req,res)=>{
         if(!user){
             throw new Error("Email is not in db")
         }
-        const ispassword= await bcrypt.compare(password,user.password);
+        const ispassword= await user.validatePassword(password)
         if(ispassword){
+            //To generate the token
+            const token= await user.getJWT();
+            //
+            res.cookie("token",token)
+
             res.send("Login successfull")
         }else{
             throw new Error("Invalid password")
         }
     }catch (err) {
         // Handle validation errors or other errors
+        res.status(400).send("Error : " + err.message);
+    }
+})
+app.get("/profile",userauth,async(req,res)=>{
+    try{
+        const user=req.user;
+        res.send(user)
+    }catch(err){
         res.status(400).send("Error: " + err.message);
     }
 })
-
  //find a user data with emailid
   app.get("/user",async(req,res)=>{
     try{
@@ -163,20 +181,7 @@ connectdb().then(()=>{
     console.error("Database not connected successfully...")
     })
 
-// app.post("/signup",async(req,res)=>{
-//     const user= new User({
-//         firstName:"Naveen",
-//         lastName:"K",
-//         emailId:"naveennavi1711@gmail.com",
-//         password:"naveen1117" 
-//     })
-//     try{
-//         await user.save()
-//         res.send("Data stored sucessfully")
-//     }catch(err){
-//         res.status(400).send("Error while saving user info.."+err.massage)
-//     }
-// }) 
+
 
 
 
