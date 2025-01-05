@@ -67,6 +67,9 @@ const userSchema= new mongoose.Schema({
     timestamps:true
 })
 
+
+
+
 userSchema.methods.getJWT = async function () {
     const user = this; // 'this' refers to the current user document.
 
@@ -79,7 +82,6 @@ userSchema.methods.getJWT = async function () {
 
     return token; // Return the generated token.
 };
-
 userSchema.methods.validatePassword = async function (passwordInputByUser) {
     const user = this; // 'this' refers to the current user document instance.
     const passwordHash = user.password; // Fetch the stored hashed password from the database.
@@ -93,4 +95,6 @@ userSchema.methods.validatePassword = async function (passwordInputByUser) {
     return isPassValid; // Return true if the password matches, otherwise false.
 };
 
-module.exports=mongoose.model("User",userSchema);
+
+
+module.exports = mongoose.model("User", userSchema);
