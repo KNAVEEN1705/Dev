@@ -92,6 +92,7 @@ userSchema.methods.validatePassword = async function (passwordInputByUser) {
         passwordHash
     );
     
+    
     return isPassValid; // Return true if the password matches, otherwise false.
 };
 

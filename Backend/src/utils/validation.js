@@ -18,10 +18,8 @@ const validateEditProfileData=(req)=>{
     const allowedEditFields=[
         "firstName",
         "lastName",
-        "emailId",
         "gender",
         "age",
-        "skills",
         "photoURL",
         "about",
     ];
@@ -29,20 +27,12 @@ const validateEditProfileData=(req)=>{
         throw new Error("First name length should be between 3 and 50 characters.");
     }
     
-    if (req.body.lastName && (req.body.lastName.trim() === "" || !validator.isLength(req.body.lastName, { min: 3, max: 50 }))) {
+    if (req.body.lastName && (req.body.lastName.trim() === "" || !validator.isLength(req.body.lastName, { min: 1, max: 50 }))) {
         throw new Error("Last name length should be between 3 and 50 characters.");
-    }
-    
-    if (req.body.skills && req.body.skills > 10) {
-        throw new Error("Skills must be less than 10.");
     }
     
     if (req.body.photoURL && !validator.isURL(req.body.photoURL)) {
         throw new Error("Invalid URL.");
-    }
-    
-    if (req.body.emailId && !validator.isEmail(req.body.emailId)) {
-        throw new Error("Invalid Email.");
     }
     
     if (req.body.about) {
