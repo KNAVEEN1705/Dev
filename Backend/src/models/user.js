@@ -47,6 +47,7 @@ const userSchema= new mongoose.Schema({
     },
     photoURL:{
         type:String,
+        default:"https://www.pnrao.com/wp-content/uploads/2023/06/dummy-user-male.jpg",
         validate(url){
             if(!validator.isURL(url)){
                 throw new Error("Make your url right")
