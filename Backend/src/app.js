@@ -4,7 +4,7 @@ const app = express();
 const cookieParsar=require("cookie-parser")
 const jwt= require("jsonwebtoken");
 const cors = require("cors")
-
+require('dotenv').config()
 
 app.use(cors({
     origin: "http://localhost:5173",
@@ -38,7 +38,7 @@ app.get('/test-cors', (req, res) => {
 connectdb().then(()=>{
     console.log("DataBase connected successfully....")
     // Start the server
-    app.listen(8000, () => {
+    app.listen(process.env.PORT, () => {
         console.log("Server is listening on port 8000");
     });
     }).catch(err=>{
